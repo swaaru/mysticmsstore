@@ -1,1 +1,224 @@
-<!-- Homepage content will go here -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MysticMS Store</title>
+  <style>
+    /* BASIC STYLES */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #00172d, #00354d);
+      color: white;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #000000cc;
+      padding: 1rem 2rem;
+    }
+
+    header img {
+      height: 40px;
+    }
+
+    header input[type="text"] {
+      padding: 0.4rem;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+    }
+
+    nav {
+      background: #00172d;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      min-width: 220px;
+      border-right: 1px solid #ffffff22;
+      height: 100vh;
+    }
+
+    nav a {
+      color: #ffffffbb;
+      margin: 0.5rem 0;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #ffffff;
+    }
+
+    .container {
+      display: flex;
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .product {
+      background: #011f34;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00000044;
+      text-align: center;
+    }
+
+    .product img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .product button {
+      background: #0099ff;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      margin-top: 0.5rem;
+      cursor: pointer;
+    }
+
+    .cart {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: #00172d;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00000066;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000000aa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      display: none;
+    }
+
+    .modal-content {
+      background: #022f47;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <img src="https://i.postimg.cc/fyjZVSDV/mysticms-06.webp" alt="MysticMS Logo">
+    <input type="text" placeholder="Enter your ID">
+  </header>
+
+  <div class="container">
+    <nav>
+      <a href="#">Ranks</a>
+      <a href="#">Coins</a>
+      <a href="#">Keys</a>
+      <a href="#">Bundles</a>
+    </nav>
+    <main>
+      <h1>Featured Products</h1>
+      <div class="product-grid" id="productGrid"></div>
+    </main>
+  </div>
+
+  <div class="cart" id="cart">
+    <h3>Cart</h3>
+    <p id="cartItems">0 items</p>
+    <p id="cartTotal">Total: ₹0</p>
+    <button onclick="showModal()">Buy Now</button>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h3>Coming Soon</h3>
+      <p>Payment system is coming soon!</p>
+      <button onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const products = [
+      {
+        name: 'Mythic Rank',
+        image: 'https://i.postimg.cc/xTvxs4x7/5c6f14afeca218a6043ff0e81ad749e4.jpg',
+        price: 699
+      },
+      {
+        name: 'Legendary Rank',
+        image: 'https://i.postimg.cc/mDWTGq49/9efb6fcf06feb8b17ad36c22a7ade24d.jpg',
+        price: 999
+      },
+      {
+        name: 'Mystic Coins - 500',
+        image: 'https://i.postimg.cc/ydwKTbQx/b9ce2e34a97c1ec87f4fa6dd3821d588.jpg',
+        price: 349
+      },
+      {
+        name: 'Mystic Key Bundle',
+        image: 'https://i.postimg.cc/jjHyTpN0/cf005f5bff9f5f6414358eb12549d3b4.jpg',
+        price: 499
+      }
+    ];
+
+    let cartCount = 0;
+    let cartTotal = 0;
+
+    const grid = document.getElementById('productGrid');
+    const cartItems = document.getElementById('cartItems');
+    const cartTotalEl = document.getElementById('cartTotal');
+
+    products.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'product';
+      div.innerHTML = `
+        <img src="${p.image}" alt="${p.name}" />
+        <h4>${p.name}</h4>
+        <p>₹${p.price}</p>
+        <button onclick="addToCart(${p.price})">Add to Cart</button>
+      `;
+      grid.appendChild(div);
+    });
+
+    function addToCart(price) {
+      cartCount++;
+      cartTotal += price;
+      cartItems.innerText = `${cartCount} items`;
+      cartTotalEl.innerText = `Total: ₹${cartTotal}`;
+    }
+
+    function showModal() {
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+  </script>
+</body>
+
+</html>
